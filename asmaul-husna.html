@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nureen</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="header">
+        <img class="logo" src="images/logo.png" alt="logo">
+        <nav class="navbar">
+        <a href="home.html">Beranda</a>
+        <a href="jadwal-shalat.html">Jadwal Shalat</a>
+        <a href="asmaul-husna.html">Asmaul Husna</a>
+        <a href="list-surat.html">Surah</a>
+      </nav>
+    </header>
+
+    <h1 class="asmaul">Asmaul Husna</h1>
+    <div id="result2"></div>
+
+    <script>
+      window.onload = function () {
+        getDataAsma();
+      };
+
+      function getDataAsma() {
+        fetch("https://asmaul-husna-api.vercel.app/api/all")
+          .then(function (response) {
+            if (!response.ok) {
+              throw new Error("Gagal mengambil data");
+            }
+            return response.json();
+          })
+          .then(function (data) {
+            displayDataAsma(data);
+          })
+          .catch(function (error) {
+            console.log("Terjadi kesalahan", error);
+          });
+      }
+
+      function displayDataAsma(data) {
+        var resulttDiv = document.getElementById("result2");
+        resulttDiv.innerHTML = "";
+
+        data.data.forEach(function (asmaul) {
+          var asmaulDiv = document.createElement("div");
+          asmaulDiv.classList.add("asmaul");
+          asmaulDiv.className = "container2";
+
+          //Nama Arab
+          var namaAsmaul = document.createElement("h2");
+          namaAsmaul.className = "nama-asmaul";
+          namaAsmaul.textContent = asmaul.arab;
+          namaAsmaul.className = "arab";
+
+          //Nama Arab
+          var namaIndo = document.createElement("h2");
+          namaIndo.className = "nama-indo";
+          namaIndo.textContent = asmaul.latin;
+
+          //Nama Arab
+          var namaEng = document.createElement("p");
+          namaEng.className = "nama-asmaul";
+          namaEng.textContent = asmaul.arti;
+
+          asmaulDiv.appendChild(namaAsmaul);
+          asmaulDiv.appendChild(namaIndo);
+          asmaulDiv.appendChild(namaEng);
+
+          resulttDiv.appendChild(asmaulDiv);
+        });
+      }
+    </script>
+  </body>
+</html>
